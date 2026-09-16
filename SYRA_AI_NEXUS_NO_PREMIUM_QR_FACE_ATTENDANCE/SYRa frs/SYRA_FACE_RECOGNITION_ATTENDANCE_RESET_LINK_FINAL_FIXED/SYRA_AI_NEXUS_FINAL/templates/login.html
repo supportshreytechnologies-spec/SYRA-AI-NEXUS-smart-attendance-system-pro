@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SYRA AI • Secure Access</title><link rel="stylesheet" href="/static/style.css">
+
+<style id="syra-welcome-fx">
+#syraWelcomeFX{position:fixed;inset:0;z-index:99999;display:none;overflow:hidden;
+background:radial-gradient(circle at 50% 55%,#09284b 0%,#020711 55%,#000 100%);
+font-family:Arial,sans-serif;color:#fff}
+#syraWelcomeFX.show{display:block}
+#syraWelcomeFX .syra-title{position:absolute;top:17%;width:100%;text-align:center;
+font-size:clamp(28px,5vw,64px);font-weight:800;letter-spacing:.12em;
+text-shadow:0 0 12px #38d8ff,0 0 34px #167bff;animation:syraTitle 1.1s ease-out}
+#syraWelcomeFX .road{position:absolute;left:-10%;right:-10%;bottom:15%;height:3px;
+background:linear-gradient(90deg,transparent,#42dfff,#fff,#42dfff,transparent);
+box-shadow:0 0 18px #18bfff;transform:perspective(180px) rotateX(55deg)}
+#syraWelcomeFX .bike{position:absolute;left:-35%;bottom:22%;width:190px;height:90px;
+animation:syraBike 2.6s cubic-bezier(.2,.75,.25,1) forwards}
+#syraWelcomeFX .bike:before{content:"";position:absolute;left:38px;bottom:0;width:42px;height:42px;
+border:7px solid #ddd;border-radius:50%;box-shadow:105px 0 0 -7px #ddd,105px 0 0 0 #555}
+#syraWelcomeFX .bike:after{content:"";position:absolute;left:54px;bottom:30px;width:95px;height:12px;
+background:#e51c2d;border-radius:10px;box-shadow:35px -18px 0 -2px #ddd}
+#syraWelcomeFX .rider{position:absolute;left:86px;bottom:39px;width:45px;height:42px;
+border-radius:45% 45% 35% 35%;background:#111;border:3px solid #eee;
+transform:rotate(-18deg);box-shadow:8px 18px 0 -7px #222}
+#syraWelcomeFX .smoke{position:absolute;left:-20%;bottom:19%;width:260px;height:100px}
+#syraWelcomeFX .p{position:absolute;border-radius:50%;background:#d9e6ee;opacity:0;
+filter:blur(2px);animation:smokeP 1.7s ease-out forwards}
+#syraWelcomeFX .p:nth-child(1){width:26px;height:26px;left:50px;bottom:12px;animation-delay:.15s}
+#syraWelcomeFX .p:nth-child(2){width:42px;height:42px;left:15px;bottom:22px;animation-delay:.4s}
+#syraWelcomeFX .p:nth-child(3){width:58px;height:58px;left:-25px;bottom:35px;animation-delay:.65s}
+#syraWelcomeFX .p:nth-child(4){width:72px;height:72px;left:-80px;bottom:50px;animation-delay:.9s}
+@keyframes syraBike{0%{left:-35%;transform:scale(.75)}100%{left:58%;transform:scale(1)}}
+@keyframes smokeP{0%{opacity:0;transform:translate(0,0) scale(.3)}
+25%{opacity:.55}100%{opacity:0;transform:translate(-75px,-45px) scale(1.8)}}
+@keyframes syraTitle{0%{opacity:0;transform:translateY(-20px) scale(.9)}
+100%{opacity:1;transform:none}}
+</style>
+</head>
+<body class="login-body">
+<div class="scene-globe"></div><div class="red-haze"></div><div class="code-rain"></div><div class="particles"></div>
+<div class="bike-animation" aria-hidden="true">
+  <div class="bike-road"></div>
+  <div class="bike">
+    <span class="wheel wheel-a"></span><span class="wheel wheel-b"></span>
+    <span class="bike-frame"></span><span class="bike-seat"></span><span class="bike-handle"></span>
+    <span class="bike-light"></span>
+  </div>
+</div>
+<main class="auth-shell">
+  <section class="brand-panel">
+    <div class="brand-orb"><span>S</span></div>
+    <div class="eyebrow">AI ATTENDANCE • NEXUS CORE</div>
+    <h1>SYRA<span>AI</span></h1>
+    <p>An intelligent command center for attendance, members and AI assistance.</p>
+    <div class="feature-stack">
+      <div><b>01</b><span>Secure member identity</span></div>
+      <div><b>02</b><span>Email verification</span></div>
+      <div><b>03</b><span>Persistent account storage</span></div>
+    </div>
+    <div class="mini-status"><i></i> CORE ONLINE</div>
+  </section>
+  <section class="auth-card">
+    <div class="welcome" id="welcome">WELCOME BACK, PILOT</div>
+    <h2>Enter the SYRA network</h2><p class="sub">Your workspace remembers your account.</p>
+    <div class="tabs"><button class="active" data-tab="login">LOGIN</button><button data-tab="register">CREATE ACCOUNT</button><button data-tab="reset">RESET PASSWORD</button></div>
+    <div id="msg"></div>
+    <form id="login" class="form active"><label>Email or mobile<input id="li" autocomplete="username" required></label><label>Password<input id="lp" type="password" autocomplete="current-password" required></label><button class="primary">ENTER SYRA <span>↗</span></button></form>
+    <form id="register" class="form"><label>Full name<input id="rn" required></label><label>Email<input id="re" type="email" autocomplete="email" required></label><label>Mobile<input id="rm" inputmode="tel" autocomplete="tel" required></label><label>Password<input id="rp" type="password" autocomplete="new-password" minlength="6" required></label><button class="primary">CREATE ACCOUNT <span>→</span></button></form>
+    <form id="reset" class="form"><label>Registered email or mobile<input id="ri" autocomplete="username" required></label><button class="primary">SEND RESET LINK <span>↗</span></button></form>
+    <div class="support-line"><span>Customer Support</span><b>{{ support_email if support_email else 'support.shreytechnologies@gmail.com' }}</b><em>{{ support_phone if support_phone else 'xxxxxxxxxx' }}</em></div>
+  </section>
+</main>
+<div id="welcomeOverlay" class="welcome-overlay">
+  <div class="welcome-ring"></div>
+  <div class="welcome-copy">WELCOME TO <span>SYRA</span></div>
+  <small id="welcomeStatus">INITIALIZING AI CORE…</small>
+  <div class="login-ride" aria-hidden="true">
+    <div class="ride-smoke smoke-1"></div><div class="ride-smoke smoke-2"></div><div class="ride-smoke smoke-3"></div>
+    <div class="ride-road"></div>
+    <div class="ride-bike">
+      <span class="ride-wheel ride-wheel-a"></span><span class="ride-wheel ride-wheel-b"></span>
+      <span class="ride-frame"></span><span class="ride-seat"></span><span class="ride-handle"></span>
+      <span class="ride-light"></span><span class="ride-rider"></span>
+    </div>
+  </div>
+</div>
+<script src="/static/app.js"></script>
+
+<div id="syraWelcomeFX" aria-hidden="true">
+  <div class="syra-title">WELCOME TO SYRA</div>
+  <div class="road"></div>
+  <div class="smoke"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></div>
+  <div class="bike"><div class="rider"></div></div>
+</div>
+<script>
+(function(){
+  function classicalTone(){
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC) return;
+      const a=new AC(), now=a.currentTime;
+      const notes=[261.63,293.66,329.63,392.00,329.63,293.66,261.63,392.00];
+      notes.forEach((f,i)=>{
+        const o=a.createOscillator(), g=a.createGain();
+        o.type="sine"; o.frequency.value=f;
+        g.gain.setValueAtTime(0,now+i*.16);
+        g.gain.linearRampToValueAtTime(.055,now+i*.16+.025);
+        g.gain.exponentialRampToValueAtTime(.001,now+i*.16+.15);
+        o.connect(g);g.connect(a.destination);
+        o.start(now+i*.16);o.stop(now+i*.16+.16);
+      });
+      setTimeout(()=>a.close().catch(()=>{}),1900);
+    }catch(e){}
+  }
+  window.playSyraWelcome=function(){
+    const el=document.getElementById("syraWelcomeFX");
+    if(!el)return;
+    el.classList.remove("show"); void el.offsetWidth; el.classList.add("show");
+    classicalTone();
+    setTimeout(()=>el.classList.remove("show"),3600);
+  };
+})();
+</script>
+</body></html>

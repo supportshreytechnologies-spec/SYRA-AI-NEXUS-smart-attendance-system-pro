@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SYRA AI • Command Center</title><link rel="stylesheet" href="/static/style.css"></head>
+<body class="dash-body">
+<div class="scene-globe"></div><div class="red-haze"></div><div class="code-rain"></div><div class="particles"></div>
+<aside class="side">
+  <div class="logo">SYRA<span>AI</span><small>NEXUS</small></div>
+  <div class="side-user"><div class="avatar">{{ member["name"][0]|upper }}</div><div><b>{{ member["name"] }}</b><small>Verified Account</small></div></div>
+  <nav>
+    <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+    <button class="nav" data-section="attendance">◉ <span>Mark Attendance</span></button>
+    <button class="nav" data-section="history">▥ <span>View Attendance</span></button>
+    <button class="nav" data-section="members">＋ <span>Add / Members</span></button>
+    <button class="nav" data-section="thoughts">✦ <span>Regular Thoughts</span></button>
+    <button class="nav" data-section="settings">⚙ <span>My Settings</span></button>
+    <button class="nav" id="whatsappBtn">◈ <span>WhatsApp Group</span></button>
+    </nav>
+  <div class="side-bottom"><button id="soundToggle" class="sound-btn">🔊 SOUND ON</button><button class="support-btn" id="supportBtn">? Customer Support</button><button class="logout" id="logout">⇥ Logout</button></div>
+</aside>
+<main class="dashboard">
+<header class="dash-header"><div><span class="eyebrow">SYRA INTELLIGENCE CORE / ONLINE</span><h1>Good to see you, <span>{{ member["name"] }}</span>.</h1><p>Real member enrollment. Real face verification. No simulated attendance.</p></div><div class="header-clock"><span id="clock">--:--:--</span><small>LOCAL CORE TIME</small></div></header>
+
+<section class="command-grid">
+  <article class="ai-command glass"><div class="command-top"><span class="tag">SYRA AI ASSISTANT</span><span class="pulse-dot"></span></div><div class="ai-core"><div class="core-ring"><div class="core-face">S</div></div><div><h2>Ask SYRA.</h2><p>Attendance, members, support and workspace commands.</p><div class="chat"><input id="chatInput" placeholder="Message SYRA AI…"><button id="chatSend">➤</button></div><div id="aiReply" class="reply">SYRA is listening…</div></div></div></article>
+  <article class="identity glass"><div class="card-title">IDENTITY NODE</div><div class="identity-row"><div class="avatar big">{{ member["name"][0]|upper }}</div><div><h3>{{ member["name"] }}</h3><p>{{ member["email"] }}</p><p>{{ member["mobile"] }}</p></div></div><div class="verified">● ACCOUNT VERIFIED / DATA SAVED</div></article>
+</section>
+
+<section class="metric-row">
+  <div class="metric glass"><span>Enrolled Members</span><b id="memberCount">{{ count }}</b><small>face identities</small></div>
+  <div class="metric glass"><span>Present Today</span><b id="presentCount">{{ present }}</b><small id="presentRate">live records</small></div>
+  <div class="metric glass"><span>Absent Today</span><b id="absentCount">{{ absent }}</b><small>not yet marked</small></div>
+  <div class="metric glass"><span>Attendance Core</span><b class="green">REAL</b><small>no fake fallback</small></div>
+</section>
+
+<section class="work-grid">
+<article class="glass attendance-card" id="attendanceSection">
+  <div class="card-title">◉ FACE ATTENDANCE <span>CAMERA REQUIRED</span></div>
+  <div class="camera-box"><video id="camera" autoplay playsinline muted></video><div class="camera-overlay">ALIGN ONE FACE</div></div>
+  <canvas id="frameCanvas" class="hidden"></canvas>
+  <button class="primary wide" id="scanBtn">START CAMERA</button>
+  <button class="secondary wide" id="markBtn" disabled>VERIFY & MARK</button>
+  <div id="scanStatus" class="tiny-status">Attendance is marked only after a real enrolled face is recognized.</div>
+</article>
+
+<article class="glass thought-card" id="thoughtsSection"><div class="card-title">✦ REGULAR THOUGHT</div><div class="thought-mark">“</div><blockquote id="thought">Build systems that make tomorrow easier.</blockquote><div class="thought-author">SYRA CORE</div><button id="thoughtBtn">NEW THOUGHT</button></article>
+
+<article class="glass status-card"><div class="card-title">⚡ LIVE SYSTEM</div><div class="status"><i></i> AI Engine <b>ONLINE</b></div><div class="status"><i></i> Database <b>ONLINE</b></div><div class="status"><i></i> Face Recognition <b id="faceStatus">READY</b></div><div class="status red"><i></i> Proxy/Fake Attendance <b>BLOCKED</b></div><div class="signal"><span></span><span></span><span></span><span></span><span></span><span></span></div></article>
+
+<article class="glass action-card"><div class="card-title">◈ COMMAND DECK</div><button id="supportBtn2">CUSTOMER SUPPORT</button><button id="whatsappBtn2">WHATSAPP GROUP</button></article>
+</section>
+
+<section class="member-panel glass" id="membersSection">
+  <div class="panel-head"><div><div class="card-title">＋ MEMBER ENROLLMENT</div><h2>Add a real attendance member</h2><p>Capture the person's face once. Attendance will not work until the face is enrolled.</p></div></div>
+  <div class="member-form-grid">
+    <label>Name<input id="memberName" placeholder="Full name" required></label>
+    <label>Email <span class="optional">optional</span><input id="memberEmail" type="email" placeholder="member@example.com"></label>
+    <label>Mobile <span class="optional">optional</span><input id="memberMobile" placeholder="+91..."></label>
+  </div>
+  <div class="enroll-row"><button class="secondary" id="enrollCameraBtn">OPEN ENROLL CAMERA</button><button class="primary" id="enrollBtn" disabled>CAPTURE & ENROLL FACE</button></div>
+  <video id="enrollCamera" class="enroll-video hidden" autoplay playsinline muted></video>
+  <div id="enrollStatus" class="tiny-status">No face is stored until you explicitly enroll it.</div>
+</section>
+
+
+{% if is_admin %}
+<section class="member-panel glass admin-tools" id="adminToolsSection">
+  <div class="panel-head"><div><div class="card-title">▣ ADMIN QR CENTER</div><h2>Registration & Attendance QR</h2><p>Only the admin account can generate these QR codes. Registration QR lasts 24 hours; attendance QR lasts 15 minutes.</p></div></div>
+  <div class="admin-qr-grid">
+    <article class="qr-card"><h3>Member Registration QR</h3><p>Share this QR so a member can capture their face and register into the real attendance database.</p><button class="primary" id="registrationQrBtn">GENERATE REGISTRATION QR</button><div id="registrationQrBox" class="qr-box hidden"><img id="registrationQrImage" alt="Member registration QR"><small id="registrationQrUrl"></small></div></article>
+    <article class="qr-card"><h3>Attendance Marking QR</h3><p>Generate a fresh QR for the attendance session. Members scan it, open the live camera and get matched against enrolled face data.</p><button class="primary" id="attendanceQrBtn">GENERATE ATTENDANCE QR</button><div id="attendanceQrBox" class="qr-box hidden"><img id="attendanceQrImage" alt="Attendance marking QR"><small id="attendanceQrUrl"></small></div></article>
+  </div>
+</section>
+{% endif %}
+
+<section class="member-panel glass" id="settingsSection">
+  <div class="panel-head"><div><div class="card-title">⚙ MY SETTINGS</div><h2>Customer controls</h2><p>You can add or change your own WhatsApp group link here. You do not need to send it to the site owner.</p></div></div>
+  <div class="member-form-grid">
+    <label style="grid-column:1/-1">WhatsApp Group / Community Link<input id="whatsappGroupUrl" type="url" placeholder="https://chat.whatsapp.com/..." autocomplete="off"></label>
+  </div>
+  <div class="enroll-row"><button class="primary" id="saveSettingsBtn">SAVE GROUP LINK</button><button class="secondary" id="clearSettingsBtn">CLEAR LINK</button></div>
+  <div id="settingsStatus" class="tiny-status">Your saved group link is used by the WhatsApp Group buttons.</div>
+</section>
+
+<section class="history-panel glass" id="historySection">
+  <div class="panel-head"><div><div class="card-title">▥ ATTENDANCE HISTORY</div><h2>Real attendance records</h2></div><button class="secondary" id="refreshHistory">REFRESH</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Member</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="historyBody"><tr><td colspan="4">Loading…</td></tr></tbody></table></div>
+</section>
+
+<footer>SYRA AI NEXUS <span>•</span> Real attendance core <span>•</span> Customer Support: {{ support_email }}<div class="founders">Founder: Shreyansh Pandey <span>•</span> Co-Founder: SYRA Team</div></footer>
+</main>
+
+<div id="supportModal" class="modal hidden"><div class="modal-card"><button class="modal-close" id="closeSupport">×</button><span class="tag">CUSTOMER SERVICE</span><h2>SYRA Support</h2><p>We're here to help with your account and workspace.</p><a href="mailto:{{ support_email }}">{{ support_email }}</a><strong>{{ support_phone }}</strong></div></div>
+<script>window.SYRA_CONFIG={whatsapp:{{ whatsapp|tojson }},isAdmin:{{ is_admin|tojson }}};</script><script src="/static/dashboard.js"></script>
+</body></html>
